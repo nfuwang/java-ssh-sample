@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+ <constant name="struts.objectFactory" value="spring"/>  
+ 
+<!-- 所有的action都应该放在对应的package下 -->  
+ <package name="default" extends="struts-default">
+      <!-- 登录过滤 --> 
+      <interceptors>
+        <interceptor name="authority" class="LoginInterceptor"/>
+        <interceptor-stack name="myStack">
+            <interceptor-ref name="defaultStack"/>
+            <interceptor-ref name="authority"/>
+        </interceptor-stack>
+    </interceptors>
+    <default-interceptor-ref name="myStack"></default-interceptor-ref>
+  	<!-- 全局的跳转结果 和下面的action中是对应的 --> 
+	<global-results>
+	    <result name="login">/index.jsp</result>
+	</global-results>
+            
+        <action name="login"  class="action.LoginAction">  
+            <!-- 定义逻辑视图和物理资源之间的映射 -->  
+            <result name="success">/success.jsp</result>  
+            <result name="error">/error.jsp</result>  
+        </action>  
+
+</package>
+</struts>

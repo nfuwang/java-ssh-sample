@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" 
+"http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+	   <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"   destroy-method="close">   
+        <!-- 指定连接数据库的驱动 -->   
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>   
+        <!-- 指定连接数据库的URL -->   
+        <property name="jdbcUrl" value="jdbc:mysql://10.167.223.51/cf-ssh-test"/>   
+        <!-- 指定连接数据库的用户名 -->   
+        <property name="user" value="root"/>   
+        <!-- 指定连接数据库的密码 -->   
+        <property name="password" value="123456"/>   
+        <!-- 指定连接数据库连接池的最大连接数 -->   
+        <property name="maxPoolSize" value="40"/>   
+        <!-- 指定连接数据库连接池的最小连接数 -->   
+        <property name="minPoolSize" value="1"/>   
+        <!-- 指定连接数据库连接池的初始化连接数 -->   
+        <property name="initialPoolSize" value="1"/>   
+        <!-- 指定连接数据库连接池的连接最大空闲时间 -->   
+        <property name="maxIdleTime" value="20"/>   
+    </bean>   
+    <!-- 定义Hibernate的SessionFactory -->   
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate3.LocalSessionFactoryBean">   
+        <!-- 依赖注入数据源，正是上文定义的dataSource -->   
+        <property name="dataSource" ref="dataSource"/>   
+        <!-- mappingResources属性用来列出全部映射文件 -->   
+        <property name="mappingResources">   
+              <list>   
+                  <!-- 以下用来列出所有的PO映射文件 -->   
+                <value>bean/User.hbm.xml</value>   
+              </list>   
+        </property>   
+          <!-- 定义Hibernate的SessionFactory属性 -->   
+        <property name="hibernateProperties">   
+             <props>   
+                <!-- 指定Hibernate的连接方言 -->   
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <!-- 配置启动应用时，是否根据Hibernate映射自动创建数据表 -->   
+                  <prop key="hibernate.hbm2ddl.auto">update</prop>   
+             </props>   
+        </property>   
+    </bean> 
+    
+    <!-- DAO beans -->
+	<bean id="userDaoImpl" class="dao.daoImpl.UserDaoImpl">  
+          <property name="sessionFactory" ref="sessionFactory"></property>
+	</bean> 
+	
+	<!--Service beans  --> 
+    <bean id="userServiceImpl" class="service.serviceImpl.UserServiceImpl">  
+  	 	<property name="dao" ref="userDaoImpl" />  
+	</bean>
+	
+		<!--Action beans  --> 
+	<bean id="login" class="action.LoginAction">  
+  	 	<property name="userServiceImpl" ref="userServiceImpl" />  
+	</bean>
+	
+</beans>
