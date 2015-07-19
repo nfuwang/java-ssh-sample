@@ -6,11 +6,11 @@
         <!-- 指定连接数据库的驱动 -->   
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>   
         <!-- 指定连接数据库的URL -->   
-        <property name="jdbcUrl" value="jdbc:mysql://10.167.223.51/cf-ssh-test"/>   
+        <property name="jdbcUrl" value="jdbc:mysql://localhost/java_ssh_sample"/>   
         <!-- 指定连接数据库的用户名 -->   
         <property name="user" value="root"/>   
         <!-- 指定连接数据库的密码 -->   
-        <property name="password" value="123456"/>   
+        <property name="password" value="root"/>   
         <!-- 指定连接数据库连接池的最大连接数 -->   
         <property name="maxPoolSize" value="40"/>   
         <!-- 指定连接数据库连接池的最小连接数 -->   
